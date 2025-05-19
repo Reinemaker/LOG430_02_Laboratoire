@@ -89,6 +89,16 @@ docker compose up --build
 - It then starts the container as defined in `docker-compose.yml`.
 - The API will be available at [http://localhost:8080](http://localhost:8080).
 
+You can find and pull the image from:
+
+[https://hub.docker.com/r/reinemaker/mywebapi](https://hub.docker.com/r/reinemaker/mywebapi)
+
+To pull the image manually, use:
+
+```bash
+docker pull reinemaker/mywebapi:latest
+```
+
 ---
 
 ## CI/CD Pipeline
@@ -112,20 +122,6 @@ Or view the latest runs here:
 
 **Direct link to a successful run:**  
 [CI/CD Pipeline Run #15104356785](https://github.com/Reinemaker/LOG430_02_Laboratoire/actions/runs/15104356785)
-
-## Docker Image
-
-The Docker image for this project is automatically built and published to Docker Hub via the CI/CD pipeline.
-
-You can find and pull the image from:
-
-[https://hub.docker.com/r/reinemaker/mywebapi](https://hub.docker.com/r/reinemaker/mywebapi)
-
-To pull the image manually, use:
-
-```bash
-docker pull reinemaker/mywebapi:latest
-```
 
 ---
 
@@ -154,3 +150,13 @@ This project is created for educational purposes.
 - GitHub Actions documentation
 - Docker documentation
 - CSharpier
+
+---
+
+## Technology Choices
+
+The following technologies were selected based on personal experience and modern development practices:
+
+- **ASP.NET (C#)**: Leveraging recent professional experience from a previous internship
+- **GitHub Actions**: Utilizing familiar version control platform used throughout academic studies
+- **Docker**: Embracing modern containerization technology as a replacement for traditional XAMPP stack
