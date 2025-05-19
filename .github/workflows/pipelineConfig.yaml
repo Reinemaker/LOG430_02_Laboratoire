@@ -72,7 +72,7 @@ jobs:
           file: MyWebApi/Dockerfile
           push: true
           tags: |
-            <your-dockerhub-username>/<your-repo>:latest
-            <your-dockerhub-username>/<your-repo>:${{ github.run_number }}
+            reinemaker/mywebapi:latest
+            reinemaker/mywebapi:${{ github.run_number }}
 
     
