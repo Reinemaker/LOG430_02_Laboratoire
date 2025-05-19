@@ -1,19 +1,19 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
-EXPOSE 80
 
-# Copy everything
-COPY . ./
+# Copy csproj and restore dependencies
+COPY MyWebApi/*.csproj ./
+RUN dotnet restore
 
-# Restore as distinct layers
-RUN dotnet restore --no-cache
+# Copy everything else and build
+COPY MyWebApi/ ./
+RUN dotnet publish MyWebApi.csproj -c Release -o out
 
-# Build the application
-RUN dotnet publish -c Release -o out
-
-# Copy the output
+# Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/out ./
+COPY --from=build /app/out .
+EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT ["dotnet", "MyWebApi.dll"]

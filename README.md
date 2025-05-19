@@ -1,80 +1,93 @@
 # MyWebApi - ASP.NET Core Web API Project
 
 ## Project Overview
-This project is a simple ASP.NET Core Web API that demonstrates basic web application functionality and testing practices. It serves as a practical example of implementing and testing a web API using modern development practices.
+This project is a simple ASP.NET Core Web API that demonstrates basic web application functionality and modern DevOps practices. It serves as a practical example of implementing, testing, containerizing, and deploying a web API using CI/CD pipelines. The project was made for LOG430 - Architecture logicielle from École de technologie supérieure.
 
 ## Learning Objectives
 - Understanding ASP.NET Core Web API development
-- Implementing unit and integration tests
+- Implementing CI/CD with GitHub Actions
 - Working with minimal API endpoints
+- Building and publishing Docker images
 - Understanding HTTP response codes and content
 
 ## Technical Stack
 - .NET 8.0
 - ASP.NET Core Web API
-- xUnit for testing
-- Microsoft.AspNetCore.Mvc.Testing for integration tests
+- GitHub Actions for CI/CD
+- Docker for containerization
+- CSharpier for linting
 
 ## Project Structure
 ```
 MyWebApi/
-├── MyWebApi/                 # Main Web API project
+├── MyWebApi/                # Main Web API project
 │   ├── Program.cs           # Application entry point
 │   └── appsettings.json     # Application configuration
-└── MyWebApi.Tests/          # Test project
-    └── HomepageTest.cs      # Integration tests
+├── .github/
+│   └── workflows/
+│       └── pipelineConfig.yaml # GitHub Actions workflow for CI/CD
+└── Dockerfile               # Dockerfile for building the API image
 ```
 
 ## Getting Started
 
 ### Prerequisites
-- .NET 8.0 SDK
+- .NET 8.0 SDK (for local development)
+- Docker (for containerization)
 - An IDE (Visual Studio, VS Code, or Rider)
 
 ### Installation
 1. Clone the repository:
    ```bash
    git clone [https://github.com/Reinemaker/LOG430_02_Laboratoire]
-   cd MyWebApi
+   cd LOG430_02_Laboratoire
    ```
 
 2. Restore dependencies:
    ```bash
-   dotnet restore
+   dotnet restore MyWebApi
    ```
 
 3. Build the solution:
    ```bash
-   dotnet build
+   dotnet build MyWebApi
    ```
 
-### Running the Application
-To run the web API:
+### Running the Application Locally
+To run the web API locally:
 ```bash
 cd MyWebApi
-dotnet run
+ dotnet run
 ```
 The API will be available at `http://localhost:5104`
 
-### Running Tests
-To run the tests:
+### Running with Docker
+To build and run the API in a Docker container:
 ```bash
-dotnet test
+docker build -t mywebapi -f MyWebApi/Dockerfile .
+docker run -d -p 8080:8080 --name mywebapi-container mywebapi
 ```
+The API will be available at `http://localhost:8080`
+
+## CI/CD Pipeline
+This project uses GitHub Actions for continuous integration and deployment. The workflow includes:
+- **Linting:** Checks code style using CSharpier
+- **Build:** Builds the project
+- **Unit Tests:** (If present) Runs unit tests
+- **Docker Build & Publish:** Builds and pushes the Docker image to Docker Hub
+
+The workflow file is located at `.github/workflows/pipelineConfig.yaml`.
+
+### Docker Hub Publication
+The pipeline will automatically build and push the Docker image to Docker Hub when changes are pushed to the `main` branch. Ensure you have set the following secrets in your GitHub repository:
+- `DOCKERHUB_USERNAME`
+- `DOCKERHUB_PASSWORD`
 
 ## API Endpoints
 
 ### GET /
 - **Description:** Returns a "Hello World!" message
 - **Response:** 200 OK with "Hello World!" content
-- **Test Coverage:** Verified through integration tests
-
-## Testing Strategy
-The project includes integration tests that verify:
-1. The homepage returns "Hello World!"
-2. The homepage returns a 200 OK status code
-
-Tests are implemented using xUnit and Microsoft.AspNetCore.Mvc.Testing for integration testing.
 
 ## Future Improvements
 - Add more endpoints
@@ -83,12 +96,13 @@ Tests are implemented using xUnit and Microsoft.AspNetCore.Mvc.Testing for integ
 - Enhance test coverage
 
 ## Author
-Minjae Lee
+Minjae Lee [LEEM29379701]
 
 ## License
 This project is created for educational purposes.
 
 ## Acknowledgments
 - ASP.NET Core documentation
-- xUnit testing framework
-- Microsoft.AspNetCore.Mvc.Testing
+- GitHub Actions documentation
+- Docker documentation
+- CSharpier

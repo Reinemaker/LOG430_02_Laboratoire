@@ -22,7 +22,7 @@ public class Program
 
         app.MapGet("/", () => "Hello World!");
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
 
         app.Run();
     }
