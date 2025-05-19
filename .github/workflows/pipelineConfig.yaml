@@ -28,7 +28,7 @@ jobs:
       - name: Run Linting (Example with CSharpier)
         run: |
           dotnet tool install -g csharpier
-          csharpier . --check
+          csharpier check .
 
       - name: Build
         run: dotnet build --configuration Release
