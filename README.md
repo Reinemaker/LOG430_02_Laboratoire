@@ -4,6 +4,46 @@
 
 This project is a minimal ASP.NET Core Web API, designed for educational purposes in the LOG430 - Software Architecture course at École de technologie supérieure. The architecture is simple and container-ready, with CI/CD automation.
 
+**Architecture:**
+
+![Project Architecture](docs/architecture.png)
+
+<details>
+<summary>PlantUML Source</summary>
+
+```plantuml
+@startuml
+!define RECTANGLE class
+
+RECTANGLE User
+RECTANGLE "Web Browser / API Client" as Client
+
+User --> Client : Uses
+
+package "Docker Host" {
+    RECTANGLE "Docker Compose" as Compose
+    RECTANGLE "MyWebApi Container" as ApiContainer
+}
+
+package "MyWebApi" {
+    RECTANGLE "Program\n(Entry Point)"
+    RECTANGLE "appsettings\n(Configuration)"
+}
+
+Client --> Compose : HTTP Request (localhost:8080)
+Compose --> ApiContainer : Starts container
+ApiContainer --> "Program\n(Entry Point)" : Runs
+ApiContainer --> "appsettings\n(Configuration)" : Reads config
+
+note right of ApiContainer
+  Built from:
+  - Dockerfile
+  - Source code in MyWebApi/
+end note
+@enduml
+```
+</details>
+
 **Project Structure:**
 ```
 LOG430_02_Laboratoire/
@@ -63,13 +103,29 @@ The workflow file is located at `.github/workflows/pipelineConfig.yaml`.
 
 ### Example: Successful CI/CD Pipeline Execution
 
-Below is a placeholder for a screenshot or link showing a successful pipeline run.  
-**Replace this with your own screenshot or link to a GitHub Actions run.**
+![Successful Example of the Pipeline](docs/pipeline_success_screenshot.png)
 
 ![CI/CD Success Example](https://github.com/Reinemaker/LOG430_02_Laboratoire/actions/workflows/pipelineConfig.yaml/badge.svg)
 
 Or view the latest runs here:  
 [GitHub Actions Runs](https://github.com/Reinemaker/LOG430_02_Laboratoire/actions)
+
+**Direct link to a successful run:**  
+[CI/CD Pipeline Run #15104356785](https://github.com/Reinemaker/LOG430_02_Laboratoire/actions/runs/15104356785)
+
+## Docker Image
+
+The Docker image for this project is automatically built and published to Docker Hub via the CI/CD pipeline.
+
+You can find and pull the image from:
+
+[https://hub.docker.com/r/reinemaker/mywebapi](https://hub.docker.com/r/reinemaker/mywebapi)
+
+To pull the image manually, use:
+
+```bash
+docker pull reinemaker/mywebapi:latest
+```
 
 ---
 
