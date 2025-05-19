@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using Xunit;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit;
 
 public class HomepageTest : IClassFixture<WebApplicationFactory<MyWebApi.Program>>
 {
