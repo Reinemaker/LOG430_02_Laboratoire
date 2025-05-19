@@ -1,43 +1,30 @@
-using Xunit;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MyWebApi;
+using Xunit;
+using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace MyWebApi.Tests;
-
-public class HomepageTest : IClassFixture<WebApplicationFactory<Program>>
+public class HomepageTest : IClassFixture<WebApplicationFactory<MyWebApi.Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
     private readonly HttpClient _client;
 
-    public HomepageTest(WebApplicationFactory<Program> factory)
+    public HomepageTest(WebApplicationFactory<MyWebApi.Program> factory)
     {
-        _factory = factory;
-        _client = _factory.CreateClient();
+        _client = factory.CreateClient();
     }
 
-    // This test verifies that the homepage returns "Hello World!"
     [Fact]
-    public async Task Index_ReturnsHelloWorld()
+    public async Task Homepage_ReturnsHelloWorld()
     {
-        // Act
         var response = await _client.GetAsync("/");
-        var content = await response.Content.ReadAsStringAsync();
-
-        // Assert
         response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
         Assert.Equal("Hello World!", content);
     }
 
-    // This test verifies that the homepage returns a 200 status code
     [Fact]
-    public async Task Index_Returns200StatusCode()
+    public async Task Homepage_ReturnsStatusCode200()
     {
-        // Act
         var response = await _client.GetAsync("/");
-
-        // Assert
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
     }
 }
